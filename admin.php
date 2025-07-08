@@ -1188,6 +1188,13 @@ if ($text == $textbotlang['Admin']['keyboardadmin']['finance']) {
     $sqlstatus_nowpayment = select("PaySetting", "ValuePay", "NamePay", "nowpaymentstatus", "select")['ValuePay'];
     $sqlstatus_iranpay = select("PaySetting", "ValuePay", "NamePay", "digistatus", "select")['ValuePay'];
     $sqlstatus_aqayepardakht = select("PaySetting", "ValuePay", "NamePay", "statusaqayepardakht", "select")['ValuePay'];
+    // Define Zarinpal status variables
+    $sqlstatus_zarinpal = select("PaySetting", "ValuePay", "NamePay", "statuszarinpal", "select")['ValuePay'] ?? 'offzarinpal';
+    $status_zarinpal = [
+        'onzarinpal' => $textbotlang['Admin']['turnon'],
+        'offzarinpal' => $textbotlang['Admin']['turnoff'],
+    ][$sqlstatus_zarinpal];
+
     $status_cart = [
         'oncard' => $textbotlang['Admin']['turnon'],
         'offcard' => $textbotlang['Admin']['turnoff'],
@@ -1220,6 +1227,12 @@ if ($text == $textbotlang['Admin']['keyboardadmin']['finance']) {
                 ['text' => $textbotlang['users']['moeny']['setting'], 'callback_data' => "Settingaqayepardakht"],
                 ['text' => $status_qayepardakht, 'callback_data' => "editpay-aqayepardakht-".$sqlstatus_aqayepardakht],
                 ['text' => $textbotlang['users']['moeny']['mr_payment_gateway'], 'callback_data' => "none"],
+            ],
+            [
+                // Zarinpal Entry - Assuming 'statuszarinpal' for NamePay in PaySetting for status toggle
+                ['text' => $textbotlang['users']['moeny']['setting'], 'callback_data' => "SettingZarinpal"],
+                ['text' => $status_zarinpal ?? $textbotlang['Admin']['turnoff'], 'callback_data' => "editpay-zarinpal-".($sqlstatus_zarinpal ?? 'offzarinpal')],
+                ['text' => $textbotlang['users']['moeny']['zarinpal_gateway_status'] ?? "درگاه زرین پال", 'callback_data' => "none"],
             ],
             [
                 ['text' => $status_iranpay, 'callback_data' => "editpay-iranpay-".$sqlstatus_iranpay],
@@ -1261,10 +1274,22 @@ if ($text == $textbotlang['Admin']['keyboardadmin']['finance']) {
         }
      update("PaySetting", "ValuePay", $value, "NamePay", "statusaqayepardakht");
     }
+    // Add Zarinpal status toggle logic
+    elseif($methodpay == "zarinpal"){
+        if($status == "onzarinpal"){ // Assuming 'onzarinpal' and 'offzarinpal' for Zarinpal status
+            $value = "offzarinpal";
+        }else{
+            $value = "onzarinpal";
+        }
+     update("PaySetting", "ValuePay", $value, "NamePay", "statuszarinpal"); // Assuming 'statuszarinpal' for NamePay
+    }
     $sqlstatus_cart = select("PaySetting", "ValuePay", "NamePay", "Cartstatus", "select")['ValuePay'];
     $sqlstatus_nowpayment = select("PaySetting", "ValuePay", "NamePay", "nowpaymentstatus", "select")['ValuePay'];
     $sqlstatus_iranpay = select("PaySetting", "ValuePay", "NamePay", "digistatus", "select")['ValuePay'];
     $sqlstatus_aqayepardakht = select("PaySetting", "ValuePay", "NamePay", "statusaqayepardakht", "select")['ValuePay'];
+    // Fetch Zarinpal status
+    $sqlstatus_zarinpal = select("PaySetting", "ValuePay", "NamePay", "statuszarinpal", "select")['ValuePay'] ?? 'offzarinpal';
+
     $status_cart = [
         'oncard' => $textbotlang['Admin']['turnon'],
         'offcard' => $textbotlang['Admin']['turnoff'],
@@ -1281,6 +1306,12 @@ if ($text == $textbotlang['Admin']['keyboardadmin']['finance']) {
         'onaqayepardakht' => $textbotlang['Admin']['turnon'],
         'offaqayepardakht' => $textbotlang['Admin']['turnoff'],
         ][$sqlstatus_aqayepardakht];
+    // Define Zarinpal status text
+    $status_zarinpal = [
+        'onzarinpal' => $textbotlang['Admin']['turnon'],
+        'offzarinpal' => $textbotlang['Admin']['turnoff'],
+        ][$sqlstatus_zarinpal];
+
     $keyboardmoeny = json_encode([
         'inline_keyboard' => [
             [
@@ -1297,6 +1328,12 @@ if ($text == $textbotlang['Admin']['keyboardadmin']['finance']) {
                 ['text' => $textbotlang['users']['moeny']['setting'], 'callback_data' => "Settingaqayepardakht"],
                 ['text' => $status_qayepardakht, 'callback_data' => "editpay-aqayepardakht-".$sqlstatus_aqayepardakht],
                 ['text' => $textbotlang['users']['moeny']['mr_payment_gateway'], 'callback_data' => "none"],
+            ],
+            [
+                // Zarinpal Entry
+                ['text' => $textbotlang['users']['moeny']['setting'], 'callback_data' => "SettingZarinpal"],
+                ['text' => $status_zarinpal, 'callback_data' => "editpay-zarinpal-".$sqlstatus_zarinpal],
+                ['text' => $textbotlang['users']['moeny']['zarinpal_gateway_status'] ?? "درگاه زرین پال", 'callback_data' => "none"],
             ],
             [
                 ['text' => $status_iranpay, 'callback_data' => "editpay-iranpay-".$sqlstatus_iranpay],

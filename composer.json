@@ -1,0 +1,22 @@
+{
+    "name": "project/name",
+    "description": "Project description",
+    "type": "project",
+    "require": {
+        "php": ">=7.4 || >=8.0",
+        "zarinpal/zarinpal-php-sdk": "^0.2.7"
+    },
+    "authors": [
+        {
+            "name": "Your Name",
+            "email": "you@example.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

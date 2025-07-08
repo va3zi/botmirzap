@@ -1,0 +1,5 @@
+# Ignore Composer dependencies
+vendor/
+
+# Ignore other common files/directories if needed in the future
+# e.g., .env, logs/, cache/

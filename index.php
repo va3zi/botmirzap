@@ -1868,7 +1868,7 @@ if ($text == $datatextbot['text_Add_Balance'] || $text == "/wallet") {
         $paymentkeyboard = json_encode([
             'inline_keyboard' => [
                 [
-                    ['text' => $textbotlang['users']['Balance']['payments'], 'url' => "https://" . "$domainhosts" . "/payment/aqayepardakht/aqayepardakht.php?price={$user['Processing_value']}&order_id=$randomString"],
+                    ['text' => $textbotlang['users']['Balance']['payments'], 'url' => "https://" . "$domainhosts" . "/payment/zarinpal/zarinpal.php?price={$user['Processing_value']}&order_id=$randomString"],
                 ]
             ]
         ]);
