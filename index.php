@@ -1821,7 +1821,42 @@ if ($text == $datatextbot['text_Add_Balance'] || $text == "/wallet") {
     if ($text > 10000000 or $text < 20000)
         return sendmessage($from_id, $textbotlang['users']['Balance']['errorpricelimit'], null, 'HTML');
     update("user", "Processing_value", $text, "id", $from_id);
-    sendmessage($from_id, $textbotlang['users']['Balance']['selectPatment'], $step_payment, 'HTML');
+    // Dynamically build payment keyboard
+    $payment_options_keyboard = [];
+    // Card to Card (Offline)
+    $cartStatus = select("PaySetting", "ValuePay", "NamePay", "Cartstatus", "select")['ValuePay'] ?? 'offcard';
+    if ($cartStatus == 'oncard') {
+        $payment_options_keyboard[] = [['text' => $textbotlang['users']['moeny']['cart_to_Cart_btn'], 'callback_data' => "cart_to_offline"]];
+    }
+
+    // AqayePardakht
+    $aqayepardakhtStatus = select("PaySetting", "ValuePay", "NamePay", "statusaqayepardakht", "select")['ValuePay'] ?? 'offaqayepardakht';
+    if ($aqayepardakhtStatus == 'onaqayepardakht') {
+        $payment_options_keyboard[] = [['text' => $textbotlang['users']['moeny']['mr_payment_gateway'], 'callback_data' => "aqayepardakht"]];
+    }
+
+    // NowPayments
+    $nowpaymentStatus = select("PaySetting", "ValuePay", "NamePay", "nowpaymentstatus", "select")['ValuePay'] ?? 'offnowpayment';
+    if ($nowpaymentStatus == 'onnowpayment') {
+        $payment_options_keyboard[] = [['text' => $textbotlang['users']['moeny']['nowpaymentbtn'], 'callback_data' => "nowpayments"]];
+    }
+
+    // Zarinpal
+    $zarinpalStatus = select("PaySetting", "ValuePay", "NamePay", "statuszarinpal", "select")['ValuePay'] ?? 'offzarinpal';
+    if ($zarinpalStatus == 'onzarinpal') {
+        $payment_options_keyboard[] = [['text' => $textbotlang['users']['moeny']['zarinpal_gateway_status'] ?? "پرداخت با زرین پال", 'callback_data' => "zarinpal_gateway_option"]];
+    }
+
+    // DigiCurrency (IranPay)
+    $digiStatus = select("PaySetting", "ValuePay", "NamePay", "digistatus", "select")['ValuePay'] ?? 'offdigi';
+    if ($digiStatus == 'ondigi') {
+        $payment_options_keyboard[] = [['text' => $textbotlang['users']['moeny']['currency_rial_gateway'], 'callback_data' => "iranpay"]];
+    }
+
+    $payment_options_keyboard[] = [['text' => $textbotlang['users']['backhome'], 'callback_data' => "backuser"]];
+    $final_payment_keyboard = json_encode(['inline_keyboard' => $payment_options_keyboard]);
+
+    sendmessage($from_id, $textbotlang['users']['Balance']['selectPatment'], $final_payment_keyboard, 'HTML');
     step('get_step_payment', $from_id);
 } elseif ($user['step'] == "get_step_payment") {
     if ($datain == "cart_to_offline") {
