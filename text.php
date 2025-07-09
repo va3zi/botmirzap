@@ -546,7 +546,14 @@ $textbotlang['users']['moeny']['copy_card_number'] = "کپی، شماره کار
 $textbotlang['users']['moeny']['copy_price'] = "کپی، مبلغ";
 $textbotlang['users']['moeny']['copy_cart_status'] = "💸 کپی شماره کارت";
 
-
+// Zarinpal specific user messages - START
+$textbotlang['users']['moeny']['zarinpal_gateway_status'] = "درگاه زرین پال"; // For admin panel listing
+$textbotlang['users']['moeny']['getmerchant_zarinpal'] = "لطفا مرچنت کد زرین پال خود را ارسال کنید. مرچنت کد فعلی: %s"; // For admin prompt
+$textbotlang['users']['moeny']['payment_error_occurred'] = "خطایی در هنگام پرداخت رخ داد. لطفا دوباره تلاش کنید یا با پشتیبانی تماس بگیرید.";
+$textbotlang['users']['moeny']['payment_cancelled_by_user'] = "پرداخت توسط شما لغو شد.";
+$textbotlang['users']['moeny']['payment_already_verified'] = "این پرداخت قبلا تایید شده است.";
+$textbotlang['users']['moeny']['tracking_code_gateway'] = "شماره پیگیری درگاه:"; // Label for Zarinpal's ref_id
+// Zarinpal specific user messages - END
 
 
 $textbotlang['users']['format']['byte'] = "بایت";
@@ -1303,6 +1310,7 @@ $textbotlang['Admin']['Report']['reportremove'] = "⭕️ یک ادمین سرو
 آیدی عددی درخواست کننده کنسل کردن : %s";
 $textbotlang['Admin']['Report']['reportremovecron'] = "❌ سرویس با نام کاربری %s حذف گردید
             دلیل حذف : %s ";
+$textbotlang['Admin']['Report']['zarinpal_success'] = "✅ پرداخت موفق با زرین پال برای کاربر %s مبلغ %s تومان. شماره پیگیری زرین پال: %s";
 $textbotlang['Admin']['Report']['aqayepardakht'] = "💵 پرداخت جدید
         
 آیدی عددی کاربر : %s
