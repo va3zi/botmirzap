@@ -48,7 +48,7 @@ if (empty($merchant_id)) {
         ];
         $data_json = json_encode($data);
 
-        $ch = curl_init('https://payment.zarinpal.com/pg/v4/payment/verify.json');
+        $ch = curl_init('https://sandbox.zarinpal.com/pg/v4/payment/verify.json'); // SANDBOX URL
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
